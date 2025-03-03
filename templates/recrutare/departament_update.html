@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'profil_candidat.css' %}">
+<form method="post">
+    {% csrf_token %}
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <img class="rounded-circle mt-5" width="150px" src="{% static 'departament_nou.png' %}" alt="Departament">
+                    <h4 class="font-weight-bold mt-3">{{ object.nume }}</h4>
+                    <span><strong>Manager Departament:</strong></span>
+                    {% if object.manager_group %}
+                        <span class="text-success">{{ object.manager_group.name }}</span>
+                    {% else %}
+                        <span class="text-danger">Fara manager asociat</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-9 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Editare Departament</h4>
+                    </div>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            {% for field in form %}
+                                <div class="form-group">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <span style="color: red;" class="small">{{ field.errors|join:", " }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Salveaza Modificarile</button>
+                        <a href="{% url 'candidati:lista_departamente' %}" class="btn btn-secondary ml-2">Anuleaza</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

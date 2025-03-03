@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'lista_candidati.css' %}">
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'statistici:lista_joburi_web' %}">Toate Joburile</a>
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'statistici:joburi_astazi' %}">Joburi astazi</a>
+    <div style="max-height: 320px; overflow-y: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="4">Numarul total de candidati adaugati de {{ user|upper }} este: {{ total_candidati_adaugati }}</th>
+                </tr>
+                <tr>
+                    <th> Nr. crt. </th>
+                    <th> Data </th>
+                    <th> Candidat adaugat </th>
+                    <th> User </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in statistica_adaugare %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.data_ora }}</td>
+                        <td><a href="{% url 'candidati:profil_candidat' item.candidat.id %}">{{ item.candidat }}</a></td>
+                        <td>{{ item.user }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        <hr>
+    <div style="max-height: 320px; overflow-y: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="4">Numarul total de angajati adaugati de {{ user|upper }} este: {{ total_angajati_adaugati }}</th>
+                </tr>
+                <tr>
+                    <th> Nr. crt. </th>
+                    <th> Data </th>
+                    <th> Angajat adaugat </th>
+                    <th> User </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in statistica_angajare %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.data_ora }}</td>
+                        <td><a href="{% url 'angajati:profil_angajat' item.angajat.id %}">{{ item.angajat }}</a></td>
+                        <td>{{ item.user }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

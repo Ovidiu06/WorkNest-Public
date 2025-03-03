@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'profil_candidat.css' %}">
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-2 py-1"><img class="rounded-circle mt-5" width="150px" src="{% static 'job.png' %}"><span class="font-weight-bold">Pozitie noua</span></div>
+            <hr>
+            <div class="d-flex flex-column align-items-center text-center">
+                <div><a href="{% url 'candidati:pozitii_deschise' %}">Pozitii</a></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pozitie</th>
+                            <th>Departament</th>
+                            <th>Oras</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in pozitii %}
+                            {% if item.active == False %}
+                                <tr style="border-bottom: 1px solid #000; background-color: rgba(255, 0, 0, 0.1)">
+                                    <td>{{ item.nume }}</td>
+                                    <td>{{ item.departament }}</td>
+                                    <td>{{ item.oras }}</td>
+                                </tr>
+                            {% else %}
+                                <tr style="border-bottom: 1px solid #000; background-color: rgba(0, 255, 0, 0.1)">
+                                    <td><a href="{% url 'candidati:lista_candidati_pozitie' item.id %}">{{ item.nume }}</a></td>
+                                    <td>{{ item.departament }}</td>
+                                    <td>{{ item.oras }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-8 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Pozitie noua</h4>
+                </div>
+                    <form method="post" enctype="multipart/form-data">
+                    <div class="row mt-6">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if field == 'active' %}
+                            {% else %}
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="text-danger small">{{ field.errors }}</span>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Deschide pozitie</button>
+                    </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

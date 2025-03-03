@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'lista_candidati.css' %}">
+    <a class="btn btn-outline-primary float-left" style="margin: 10px 10px"  href="{% url 'candidati:pozitii_deschise' %}">Lista pozitii</a>
+    <a class="btn btn-outline-primary float-left" style="margin: 10px 10px"  href="{% url 'candidati:recrutare' %}">Lista Candidati</a>
+    <a class="btn btn-outline-primary float-left" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_candidat_nou' %}">Adaugare Candidat nou</a>
+    <a class="btn btn-outline-primary float-right" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_pozitie_noua' %}">Adaugare Pozitie Noua</a>
+    <a class="btn btn-outline-primary float-right" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_oras_nou' %}">Adaugare Oras Nou</a>
+    <a class="btn btn-outline-primary float-right" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_departament_nou' %}">Adaugare Departament Nou</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th><a href="?sort=id&order={{ request.GET.order|default:'asc' }}">ID Intern<img src="{% static 'sort_arrow_down.png' %}" width="15px"></a></th>
+                    {% if numar_candidati == 1 %}
+                            <th>Un singur candidat pentru pozitia de <b>{{ pozitie }}</b> din <b>{{ oras }}</b></th>
+                        {% elif numar_candidati == 0 %}
+                            <th>Nici un candidat disponibil pentru pozitia de <b>{{ pozitie }}</b> din <b>{{ oras }}</b></th>
+                       {% else %}
+                            <th>Sunt {{ numar_candidati }} Candidati pentru pozitia de <b>{{ pozitie }}</b> din <b>{{ oras }}</b></th>
+                        {% endif %}
+                <th><a href="?sort=status&order={{ request.GET.order|default:'asc' }}">Status</a></th>
+                <th><a href="?sort=data_aplicarii&order={{ request.GET.order|default:'asc' }}">Data aplicarii</a></th>
+                <th>Varsta</th>
+                <th>Sex</th>
+                <th>Angajeaza</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td><a href="{% url 'candidati:profil_candidat' item.id %}">{{ item }}</a></td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.data_aplicarii }}</td>
+                    <td>{{ item.varsta }}</td>
+                    <td>{{ item.sexul_candidatului }}</td>
+                    {% if item.status == "aprobat" %}
+                    <td><a href="{% url 'angajati:adauga_angajat' item.id %}"><button  class="btn btn-primary profile-button">Angajeaza candidatul</button></a></td>
+                    {% else %}
+                    <td><span style="color: grey">Este nevoie ca statusul candidatului sa fie 'Aprobat'</span></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

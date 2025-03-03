@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'profil_candidat.css' %}">
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3">
+                {% if url_anterior %}
+                    <a class="btn btn-primary profile-button" type="button" href="{{ url_anterior }}"><-- Candidatul anterior></a>
+                {% else %}
+                    <div class="p-3"> </div>
+                {% endif %}
+            </div>
+            <hr>
+            {% if object.poza.url %}
+            <div class="d-flex flex-column align-items-center text-center"><img class="rounded-circle mt-5" width="150px" src="{{ object.poza.url }}">
+                <span><b style="color: #011434; font-family: 'volunmo';  font-size: 50px"> {{ object }}</b></span>
+                <span class="text-black-50">{{ object.email }}</span>
+                <span class="text-black-50"><b>Telefon: </b>{{ object.numar_telefon }}</span>
+                <span class="text-black-50"><b>Judet: </b>
+                    {% if object.judet_candidat %}
+                        {{ object.judet_candidat }}
+                    {% else %}
+                        Necompletat
+                    {% endif %}
+                </span>
+                <span class="text-black-50"><b>Localitate:</b>
+                    {% if object.localitate_candidat %}
+                        {{ object.localitate_candidat }}
+                    {% else %}
+                        Necompletat
+                    {% endif %}
+                </span>
+                <span class="text-black-50"><b>Varsta:</b> {{ object.varsta }}</span>
+                <span class="text-black-50"><b>Sex:</b> {{ object.sexul_candidatului }}</span>
+                <span class="text-black-50"><b>Starea civila: </b> {{ object.get_stare_civila_display }}</span>
+            </div>
+            <div class="mt-5 text-center"><a class="btn btn-primary profile-button" type="button" href="{% url 'candidati:update_profil' object.id %}">Editeaza profil</a></div>
+            {% endif %}
+        </div>
+        <div class="col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profil Candidat:</h4>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Pozitie aplicata</label><p class="form-control">{{ object.pozitie_aplicata.nume }}</p></div>
+                    <div class="col-md-12"><label class="labels">Cod COR</label><p class="form-control">{{ object.pozitie_aplicata.cod_COR }}</p></div>
+                    <div class="col-md-12"><label class="labels">Departament</label><p class="form-control">{{ object.pozitie_aplicata.departament }}</p></div>
+                    <div class="col-md-12"><label class="labels">Oras</label><p class="form-control">{{ object.pozitie_aplicata.oras }}</p></div>
+                    <div class="col-md-12"><label class="labels">Data aplicarii</label><p class="form-control">{{ object.data_aplicarii }}</p></div>
+                    {% if object.cv %}
+                        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="{{ candidat.cv.url }}"></iframe></div>
+                    {% else %}
+                    <div class="col-md-12"><label class="labels">Link CV</label><button class="form-control">     CV lipsa</button></div>
+                    {% endif %}
+                </div>
+                <div class="row mt-3">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3">
+                {% if url_urmator %}
+                    <a class="btn btn-primary profile-button" type="button" href="{{ url_urmator }}">Candidatul Urmator --></a>
+                {% else %}
+                    <div class="p-3"></div>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <h5>Status actual</h5>
+
+                <div class="col-md-12"><p class="form-control">{{ object.get_status_display }}</p></div>
+                {% if object.status == "aplicat" %}
+                <a href="{% url 'candidati:programeaza_interviu' object.id %}"><button class="btn btn-primary profile-button">Programeaza interviu</button></a>
+                {% elif object.status == "interviu" %}
+                <button class="btn btn-primary profile-button" style="background-color: green">Transmite cererea pentru aprobare angajat</button>
+                {% else %}
+                {% endif %}
+            </div>
+            <hr>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <h5>Angajare candidat</h5>
+                {% if object.status == "aprobat" %}
+                    <a href="{% url 'angajati:adauga_angajat' candidat.id %}"><button  class="btn btn-primary profile-button">Angajează candidatul</button></a>
+                {% else %}
+                    <span style="color: grey">Este nevoie ca statusul candidatului sa fie 'Aprobat'</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

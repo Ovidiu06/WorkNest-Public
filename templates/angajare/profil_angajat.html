@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'profil_candidat.css' %}">
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center"><img class="rounded-circle mt-5" width="150px" src="{{ object.poza.url }}">
+              <span><b style="color: #011434; font-family: 'volunmo';  font-size: 50px"> {{ object }}</b></span>
+                <span class="text-black-50">{{ object.email }}</span>
+                <span class="text-black-50"><b style="color: #011434">CNP: {{ object.cnp }}</b></span>
+                <span class="text-black-50"><b>Telefon: </b>{{ object.telefon }}</span>
+                <span class="text-black-50"><b>Judet: </b>{{ object.judet }}</span>
+                <span class="text-black-50"><b>Localitate: </b> {{ object.localitate }}</span>
+                <span class="text-black-50"><b>Varsta: </b>{{ object.varsta }}</span>
+                <span class="text-black-50"><b>Sex: </b>{{ object.sexul }}</span>
+                <span class="text-black-50"><b>Starea civila: </b>{{ object.get_stare_civila_display }}</span>
+            </div>
+            <div class="mt-5 text-center"><a class="btn btn-primary profile-button" type="button" href="{% url 'angajati:update_profil_angajat' object.id %}">Editeaza informatii</a></div>
+        </div>
+        <div class="col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profil Angajat:</h4>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Este Manager</label><p class="form-control">{{ object.este_manager }}</p></div>
+                    <div class="col-md-12"><label class="labels">Pozitie</label><p class="form-control">{{ object.pozitie_angajat.nume }}</p></div>
+                    <div class="col-md-12"><label class="labels">Departament</label><p class="form-control">{{ object.pozitie_angajat.departament }}</p></div>
+                    <div class="col-md-12"><label class="labels">Oras</label><p class="form-control">{{ object.pozitie_angajat.oras }}</p></div>
+                    <div class="col-md-12"><label class="labels">Data angajarii</label><p class="form-control">{{ object.data_angajarii }}</p></div>
+                </div>
+                <div class="row mt-3">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 border-right">
+            <div class="p-3 py-5">
+            <h4>Detalii user</h4>
+                <span><b style="color: #011434; font-family: 'volunmo';  font-size: 30px"> {{ object.user.username }}</b></span>
+                <span class="text-black-50">{{ object.user. }}
+            <a class="btn btn-primary profile-button" style="margin: 10px 10px"  href="{% url 'userprofile:create_new_account' %}">Adaugare user</a>
+                </span></div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

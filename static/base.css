@@ -1,0 +1,107 @@
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+input:focus::placeholder {
+color: transparent;
+}
+
+@font-face {
+  font-family: 'volunmo';
+  src: local('Volunmo'),
+       url('../static/fonts/volunmo.ttf') format('truetype');
+}
+
+#logo {
+    padding = 0.3rem;
+}
+
+header {
+  width: 100%;
+  background-color: #eeedde;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+body {
+    margin: 0;
+    padding-top: 50px;
+}
+
+nav {
+  z-index: 1000;
+}
+
+nav > ul {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-inline-start: 0;
+  margin-block: 0;
+  height: 100%;
+}
+
+.btn-outline-success:hover {
+    background-color: #eeedde;
+    color: green;
+    outline: 1px solid green;
+}
+
+.btn-outline-success {
+    background-color: #eeedde;
+    color: #011434;
+}
+
+.btn-outline-primary:hover {
+    background-color: #eeedde;
+    color: #011434;
+    outline: 1px solid #011434;
+
+}
+
+.btn-outline-info:hover {
+    background-color: #eeedde;
+    color: #011434;
+}
+
+.btn-outline-primary {
+    color: #011434;
+    outline-color: #011434;
+}
+
+.btn-outline-danger:hover {
+    background-color: #eeedde;
+    color: red;
+    outline: 1px solid red;
+
+}.btn-outline-danger {
+    background-color: #eeedde;
+    color: #011434;
+}
+
+
+nav > ul > li {
+  color: #011434;
+  margin: 0 0.2rem;
+  padding: 0.2rem;
+  display: block;
+}
+
+li > a {
+  color: inherit;
+  text-decoration: none;
+  font-family: sans-serif, tahoma;
+  font-weight: bold;
+}
+
+.imagine_rotunda {
+    border-radius: 50%;
+}

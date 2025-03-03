@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+    <link rel="stylesheet" href="{% static 'lista_candidati.css' %}">
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'angajati:adauga_angajat_fara_candidat' %}">Adaugare Angajat nou</a>
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'userprofile:create_new_account' %}">Adaugare utilizator nou</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2"> ID Angajat </th>
+                <th> Angajat </th>
+                <th> Departament </th>
+                <th> Pozitie </th>
+                <th> Oras </th>
+                <th> Data Nasterii </th>
+                <th> Varsta </th>
+                <th> Sex </th>
+                <th> Data Angajare </th>
+                <th> Vechime </th>
+                <th> Reziliere contract</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td><img class="imagine_rotunda" src ="{{ item.poza.url }}" width="30px" height="30px"></td>
+                    <td><a href="{% url 'angajati:profil_angajat' item.id %}">{{ item }}</a></td>
+                    <td>{{ item.pozitie_angajat.departament }}</td>
+                    <td>{{ item.pozitie_angajat.nume }}</td>
+                    <td>{{ item.pozitie_angajat.oras }}</td>
+                    <td>{{ item.data_nasterii }}</td>
+                    <td>{{ item.varsta }}</td>
+                    <td>{{ item.sexul }}</td>
+                    <td>{{ item.data_angajarii }}</td>
+                    <td>{{ item.vechime }}</td>
+                    <td>
+                        {% if item.active == 1 %}
+                            <a class="btn btn-outline-danger" href="{% url 'angajati:reziliere_contract' item.id %}">Reziliere Contract</a>
+                        {% else %}
+                                <a class="btn btn-outline-success" href="{% url 'angajati:reactivare_contract' item.id %}">Reactivare</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

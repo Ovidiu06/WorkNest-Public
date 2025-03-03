@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'lista_candidati.css' %}">
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'statistici:joburi_astazi' %}">Joburi astazi</a>
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'statistici:statistici' %}">Statistici</a>
+    <hr>
+<form method="post" action="{% url 'statistici:refresh_web_scraping' %}">
+            {% csrf_token %}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-outline-primary btn-snm float-left">Refresh</button>
+    <h2>Joburi noi in Brasov pe "BestJobs"</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Nr. crt. </th>
+                <th> Data </th>
+                <th> Titlu Job </th>
+                <th> Companie </th>
+                <th> Platforma </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.data }}</td>
+                        <td><a href="{{ item.link }}">{{ item.titlu_job }}</a></td>
+                        <td>{{ item.companie }}</td>
+                        <td><a href="https://www.bestjobs.eu/locuri-de-munca" target="_blank">{{ item.platforma }}</a></td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

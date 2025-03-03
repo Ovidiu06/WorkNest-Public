@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<h1>Adauga un nou document</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-profile">Salveaza</button>
+</form>
+<a href="{% url 'administreaza_documente' %}" class="btn btn-secondary">Inapoi la lista documentelor</a>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'lista_candidati.css' %}">
+<a class="btn btn-outline-primary float-left" style="margin: 10px 10px" href="{% url 'candidati:recrutare' %}">Lista Candidati</a>
+<a class="btn btn-outline-primary float-left" style="margin: 10px 10px"  href="{% url 'candidati:pozitii_deschise' %}">Lista pozitii</a>
+    <a class="btn btn-outline-primary float-left" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_candidat_nou' %}">Adaugare Candidat nou</a>
+<a class="btn btn-outline-primary float-right" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_pozitie_noua' %}">Adaugare Pozitie Noua</a>
+<a class="btn btn-outline-primary float-right" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_oras_nou' %}">Adaugare Oras Nou</a>
+<a class="btn btn-outline-primary float-right" style="margin: 10px 10px"  href="{% url 'candidati:adaugare_departament_nou' %}">Adaugare Departament Nou</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nr. crt.</th>
+            <th>Nume Departament</th>
+            <th>Manager</th>
+            <th>Grup Manager</th>
+            <th>Editare</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for departament in departamente %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a href="{% url 'candidati:editeaza_departament' departament.id %}">{{ departament.nume }}</a></td>
+            <td>
+                {% if departament.manager_group %}
+                    {% with departament.manager_group.user_set.all as managers %}
+                        {% if managers|length > 0 %}
+                            {{ managers.first.get_full_name|default:managers.first.username }}
+                        {% else %}
+                            Fara manager
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    Fara manager
+                {% endif %}
+            </td>
+            <td>
+                {% if departament.manager_group %}
+                    {{ departament.manager_group.name }}
+                {% else %}
+                    Fara manager
+                {% endif %}
+            </td>
+            <td>
+                <a class="btn btn-primary profile-button" href="{% url 'candidati:editeaza_departament' departament.id %}">Editeaza</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

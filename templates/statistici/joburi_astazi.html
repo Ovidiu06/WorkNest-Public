@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'lista_candidati.css' %}">
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'statistici:lista_joburi_web' %}">Toate Joburile</a>
+    <a class="btn btn-outline-primary" style="margin: 10px 10px"  href="{% url 'statistici:statistici' %}">Statistici</a>
+    <h2>Joburi noi in Brasov pe "BestJobs" astazi: <b>{{ data_astazi }}</b></h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th> Nr. crt. </th>
+                <th> Titlu Job </th>
+                <th> Companie </th>
+                <th> Platforma </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{{ item.link }}">{{ item.titlu_job }}</a></td>
+                        <td>{{ item.companie }}</td>
+                        <td>{{ item.platforma }}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
