@@ -1,4 +1,2 @@
 # WorkNest-Public
-Prima aplicatie in Python si cu ajutorul Django.
-
-Aplicatie HR de gestionare a procesului de angajare
+Prima aplicatie in Python cu ajutorul Django - aplicatie HR de gestionare a procesului de angajare
