@@ -38,11 +38,10 @@
         </div>
         <div class="col-md-3 border-right">
             <div class="p-3 py-5">
-            <h4>Detalii user</h4>
-                <span><b style="color: #011434; font-family: 'volunmo';  font-size: 30px"> {{ object.user.username }}</b></span>
-                <span class="text-black-50">{{ object.user. }}
-            <a class="btn btn-primary profile-button" style="margin: 10px 10px"  href="{% url 'userprofile:create_new_account' %}">Adaugare user</a>
-                </span></div>
+            <h4>Detalii documente</h4>
+                <div class="col-md-12"><label class="labels">Alte documente: </label><p class="form-control"><a class="btn btn-primary profile-button" style="margin: 10px 10px"  href="{% url 'angajati:administreaza_documente' object.id %}">Vezi documente</a></p></div>
+                <div class="col-md-12"><label class="labels">CIM: </label><p class="form-control"><a class="btn btn-primary profile-button" style="margin: 10px 10px"  href="{% url 'angajati:administreaza_documente' object.id %}">  Vezi Contract     </a></p></div>
+            </div>
         </div>
     </div>
 </div>

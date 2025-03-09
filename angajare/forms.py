@@ -54,6 +54,15 @@ class AngajatForm(forms.ModelForm):
         return self.cleaned_data
 
 class DocumentForm(forms.ModelForm):
+    document = forms.FileField(required=False, label="Incarca CV-ul (Doar fisiere de tip .pdf)")
     class Meta:
         model = Document
-        fields = ['angajat', 'tip_document', 'document']
+        fields = ['tip_document', 'document']
+
+    def __init__(self, pk=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields.keys():
+            self.fields[field_name].widget.attrs.update({
+                'class': 'form-control'
+            })
+        self.pk = pk

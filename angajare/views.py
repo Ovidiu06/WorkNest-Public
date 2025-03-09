@@ -1,8 +1,10 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from recrutare.models import Candidat
 from .models import Document, Angajat, generator_username,StatisticaAngajare, StatisticaAdaugareDocumente
@@ -121,6 +123,15 @@ class AdministreazaDocumenteView(LoginRequiredMixin, ListView):
     model = Document
     template_name = 'angajare/administreaza_documente.html'
     context_object_name = 'documente_angajati'
+    success_url = reverse_lazy('angajati:administreaza_documente')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id_angajat = self.kwargs.get('angajat_id')
+        context['angajat'] = Angajat.objects.get(id=id_angajat)
+        context['documente_angajati'] = Document.objects.filter(angajat_id=id_angajat).order_by('data_incarcare_document')
+        context['an_curent'] = datetime.date.today().year
+        return context
 
 class AdaugaDocumentView(LoginRequiredMixin, CreateView):
     model = Document
@@ -128,16 +139,27 @@ class AdaugaDocumentView(LoginRequiredMixin, CreateView):
     template_name = 'angajare/adauga_document.html'
     success_url = reverse_lazy('angajati:administreaza_documente')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id_angajat = self.kwargs.get('angajat_id')
+        context['angajat'] = Angajat.objects.get(id=id_angajat)
+        return context
+
     def form_invalid(self, form):
         print(form.errors)
         return super(AdaugaDocumentView, self).form_invalid(form)
 
     def form_valid(self, form):
         if form.is_valid() and not form.errors:
-            instance = form.save(commit=False)
-            instance.save()
-            StatisticaAdaugareDocumente.objects.create(angajat=instance.angajat, document=instance.tip_document, user=self.request.user)
-            return redirect('angajati:administreaza_angajatii')
+            angajat_id = self.kwargs.get('angajat_id')
+            angajat = Angajat.objects.get(id=angajat_id)
+            form.instance.angajat = angajat
+            document = form.save()
+            StatisticaAdaugareDocumente.objects.create(document=document, angajat=angajat, user=self.request.user)
+            return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('angajati:administreaza_documente', kwargs={'angajat_id': self.kwargs['angajat_id']})
 
 
 @login_required

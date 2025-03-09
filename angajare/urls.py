@@ -13,6 +13,6 @@ urlpatterns = [
     path('adauga_angajat/', views.AdaugaAngajat.as_view(), name='adauga_angajat_fara_candidat'),
     path('<int:pk>/reziliere_contract', reziliere_contract, name='reziliere_contract'),
     path('<int:pk>/reactivare_contract', reactivare_contract, name='reactivare_contract'),
-    path('documente_angajati/', views.AdministreazaDocumenteView.as_view(), name='administreaza_documente'),
-    path('documente_angajati/adauga/', views.AdaugaDocumentView.as_view(), name='adauga_document'),
+    path('<int:angajat_id>/documente_angajati/', views.AdministreazaDocumenteView.as_view(), name='administreaza_documente'),
+    path('<int:angajat_id>/documente_angajati/adauga/', views.AdaugaDocumentView.as_view(), name='adauga_document'),
 ]
